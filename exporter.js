@@ -6,7 +6,7 @@ function init(){
     fs.readJson("./exportConfig.json", function(err, config){
         if (err){
             if (err.code == 'ENOENT'){
-                console.log("ConfigException : Config do not exist. Creation of default config file 'exportConfig.json'. Please complete it.");
+                console.log("ConfigException : Config does not exist. Creation of default config file 'exportConfig.json'. Please complete it.");
                 fs.writeJson('./exportConfig.json', 
                     {
                         folders : {},
