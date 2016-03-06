@@ -1,19 +1,19 @@
 # Exporter
-Copy files and folders where you want.
+Copy files and folders where you want.<br />
 
 ## Instructions:
-Download and install nodeJs
-Download exporter.js and package.json
+Download and install [nodeJs](https://nodejs.org/en/)<br />
+Download exporter.js and package.json<br /><br />
 Install node module with command line 
 ```
 npm install
 ```
-Launch application with 
+<br />Launch application with 
 ```
 node exporter.js
 ```
 
-Configure exportConfig.json
+<br />Configure exportConfig.json
 ```
 {
     "folders" : {
