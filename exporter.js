@@ -3,79 +3,50 @@ var fs = require('fs-extra');
 init();
 
 function init(){
-    var file = 'exportConfig.json';
-    var hasConfig = false;
-
-    fs.ensureFile(file, function (err) {
+    fs.readJson("./exportConfig.json", function(err, config){
         if (err){
-            console.log(err) // => null
-        }// file has now been created, including the directory it is to be placed in
-    });
+            if (err.code == 'ENOENT'){
+                console.log("ConfigException : Config do not exist. Creation of default config file 'exportConfig.json'. Please complete it.");
+                fs.writeJson('./exportConfig.json', 
+                    {
+                        folders : {},
+                        files   : {}
+                    }, 
+                    function (err) {
+                        if (err) {
+                            console.log(err)
+                        }
+                    }
+                );
+                return;
+            }
 
-    if (!hasConfig){
-        return;
-    }
-
-    fs.readJson("exportConfig.json", function(err, configCopy){
-        if (err){
-            console.log(err);
+            console.log("ConfigException : " + err);
             return;
         }
-        
-        for (var fromFolder in configCopy.folders){
-            copyFolderRecursive(fromFolder, configCopy.folders[fromFolder]);
+
+        if ((!config.folders || !Object.keys(config.folders).length) && (!config.files || !Object.keys(config.files).length)){
+            console.log("ConfigException : do not find any folders or files to copy");
+            return;
+        }
+
+        for (var fromFolder in config.folders){
+            copy(fromFolder, config.folders[fromFolder], "folder");
         }
         
-        for (var from in configCopy.files){
-            copyFile(from, configCopy.files[from]);
+        for (var fromFile in config.files){
+            copy(fromFile, config.files[fromFile], "file");
         }
     });
 }
-    
-function copyFile(source, target, callBack) {
-    var cbCalled = false;
-    var rd = fs.createReadStream(source);
-    var wr = fs.createWriteStream(target);
 
-    rd.on("error", function(err) {
-        done(err);
-    });
-
-    wr.on("error", function(err) {
-        done(err);
-    });
-
-    wr.on("close", function(ex) {
-        done();
-    });
-
-    rd.pipe(wr);
-
-    function done(err) {
+function copy(from, to, type){
+    fs.copy(from, to, function (err) {
         if (err){
-            console.log(err);
-        } else {
-            console.log("Copy file " + source + " to " + target);
+            console.error(err);
+            return;
         }
-        
-        if (!cbCalled && callBack) {
-            callBack(source, target, err);
-            cbCalled = true;
-        }
-    }
-}
 
-
-function copyFolderRecursive(source, target, callBack) {
-    fs.copy(source, target, function(err){
-        if (err){
-            console.log(err);
-        } else {
-            console.log("Copy folder " + source + " to " + target);
-        }
-        
-        if (callBack){
-            callBack(source, target, err);
-        }
+        console.log("Copy " + type + " " + from + " to " + to);
     });
 }
