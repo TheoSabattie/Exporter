@@ -1,0 +1,30 @@
+{
+  "name": "Exporter",
+  "version": "1.0.0",
+  "description": "Copy files and folders where you want",
+  "main": "exporter.js",
+  "dependencies": {
+    "fs-extra": "^0.26.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node exporter.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheoSabattie/Exporter.git"
+  },
+  "keywords": [
+    "Export",
+    "Exporter",
+    "Copy",
+    "Files",
+    "Folders"
+  ],
+  "author": "Théo Sabattié",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheoSabattie/Exporter/issues"
+  },
+  "homepage": "https://github.com/TheoSabattie/Exporter"
+}
