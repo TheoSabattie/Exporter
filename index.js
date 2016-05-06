@@ -1,3 +1,7 @@
+/**
+ * @author Théo Sabattié, ilicos
+ */
+
 var fs = require('fs-extra');
 
 init();
